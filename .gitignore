@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+
+# Virtual environments & env files
+.venv
+.env
+
+# Application databases, workspaces, and temporary scratch
+db/
+workspaces/
+data/
+scratch/
+*.sqlite3
