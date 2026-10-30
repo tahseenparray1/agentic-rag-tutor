@@ -12,6 +12,7 @@ PROJECT_NAME = check_active_workspace(
     page_title="💬 Live Classroom",
     welcome_message="To get started, please **create a new workspace** using the menu on the left sidebar. Once you create a project workspace, you will unlock full access to the live classroom."
 )
+#will not run untill active_session is not none
 DATA_DIR = st.session_state.get("data_dir", "")
 DB_DIR = st.session_state.get("db_dir", "")
 
@@ -41,7 +42,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-from tutor_engine import teach, grade, load_student_profile, save_chat_history, load_chat_history, clear_chat_history, save_quiz_state, load_quiz_state
+from tutor_engine import teach, grade, save_chat_history, load_chat_history, clear_chat_history, save_quiz_state, load_quiz_state
 
 chat_key = f"chat_messages_{PROJECT_NAME}"
 quiz_key = f"active_quiz_{PROJECT_NAME}"

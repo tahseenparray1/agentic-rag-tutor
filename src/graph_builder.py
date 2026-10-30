@@ -100,18 +100,11 @@ def build_advanced_knowledge_graph(data_dir="data", db_dir="./db"):
         try:
             with open(checkpoint_path, "r") as f:
                 raw_data = json.load(f)
-            if isinstance(raw_data, list):
-                print("🔄 Migrating outdated flat list checkpoint format to structured dictionary.")
-                # We start clean to keep DB and checkpoint completely in sync
-                checkpoint = {"completed_files": {}}
-            elif isinstance(raw_data, dict) and "completed_files" in raw_data:
+            if "completed_files" in raw_data:
                 checkpoint = raw_data
-            else:
-                checkpoint = {"completed_files": {}}
         except Exception as e:
             print(f"⚠️ Checkpoint file corrupted or unreadable ({e}). Re-initializing.")
-            checkpoint = {"completed_files": {}}
-
+            
     print(f"📦 Connecting to persistent ChromaDB at '{db_dir}'...")
     chroma_client = chromadb.PersistentClient(path=db_dir)
     

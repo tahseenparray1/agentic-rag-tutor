@@ -183,28 +183,28 @@ class StreamlitConsoleRedirect:
             
     def flush(self):
         pass
-
-if col_action.button("🚀 Compile Syllabus Graph", use_container_width=True):
-    if not pdf_files:
-        st.error("Abort: No PDF documents available inside this workspace.")
-    else:
-        status_box = st.status("Initializing Ingestion Engines...", expanded=True)
-        console_placeholder = st.empty()
-        
-        old_stdout = sys.stdout
-        sys.stdout = StreamlitConsoleRedirect(console_placeholder)
-        
-        try:
-            status_box.update(label="🚀 Indexing & Parsing documents...", state="running")
+with col_action:
+    if st.button("🚀 Compile Syllabus Graph", use_container_width=True):
+        if not pdf_files:
+            st.error("Abort: No PDF documents available inside this workspace.")
+        else:
+            status_box = st.status("Initializing Ingestion Engines...", expanded=True)
+            console_placeholder = st.empty()
             
-            build_advanced_knowledge_graph(data_dir=DATA_DIR, db_dir=DB_DIR)
+            old_stdout = sys.stdout
+            sys.stdout = StreamlitConsoleRedirect(console_placeholder)
             
-            status_box.update(label="✅ Graph Compilation Complete!", state="complete", expanded=False)
-            st.success("🎉 Syllabus hierarchy, vector embeddings, and concept relationships successfully compiled!")
-            st.balloons()
-            st.rerun()
-        except Exception as e:
-            status_box.update(label="❌ Pipeline Failed!", state="error")
-            st.error(f"Ingestion failed with error: {e}")
-        finally:
-            sys.stdout = old_stdout
+            try:
+                status_box.update(label="🚀 Indexing & Parsing documents...", state="running")
+                
+                build_advanced_knowledge_graph(data_dir=DATA_DIR, db_dir=DB_DIR)
+                
+                status_box.update(label="✅ Graph Compilation Complete!", state="complete", expanded=False)
+                st.success("🎉 Syllabus hierarchy, vector embeddings, and concept relationships successfully compiled!")
+                st.balloons()
+                st.rerun()
+            except Exception as e:
+                status_box.update(label="❌ Pipeline Failed!", state="error")
+                st.error(f"Ingestion failed with error: {e}")
+            finally:
+                sys.stdout = old_stdout

@@ -1,6 +1,5 @@
 import streamlit as st
 import os
-import json
 import sys
 from collections import defaultdict, deque
 from streamlit_agraph import agraph, Node, Edge, Config
@@ -186,11 +185,12 @@ selected = agraph(
 )
 
 if selected:
-    node = next(
-        (n for n in graph.get("nodes", []) if n.get("concept_name") == selected), 
-        None
-    )
-    
+    node = None
+    if selected: #selected returns id only
+        for n in graph.get("nodes", []):
+            if n.get("concept_name") == selected:
+                node = n
+                break
     if node:
         level = levels.get(selected, 0)
         
